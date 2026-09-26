@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.Anime;
+import com.example.demo.requests.AnimePostRequestBody;
 import com.example.demo.service.AnimeService;
 import com.example.demo.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class AnimeController {
     }
 
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody Anime anime){
+    public ResponseEntity<Anime> save(@RequestBody AnimePostRequestBody anime){
         return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED);
     }
 
