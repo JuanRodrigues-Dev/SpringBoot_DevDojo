@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.Anime;
 import com.example.demo.requests.AnimePostRequestBody;
+import com.example.demo.requests.AnimePutRequestBody;
 import com.example.demo.service.AnimeService;
 import com.example.demo.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class AnimeController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Anime> findById(@PathVariable("id") long id){
-        return new ResponseEntity<>(animeService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(animeService.findByIdOrThrowBadRequestException(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -47,8 +48,8 @@ public class AnimeController {
     }
 
     @PutMapping
-    public ResponseEntity<Anime> replace(@RequestBody Anime anime){
-        animeService.replace(anime);
+    public ResponseEntity<Anime> replace(@RequestBody AnimePutRequestBody animePutRequestBody){
+        animeService.replace(animePutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

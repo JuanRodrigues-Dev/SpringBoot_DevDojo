@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.domain.Anime;
 import com.example.demo.repository.AnimeRepository;
 import com.example.demo.requests.AnimePostRequestBody;
+import com.example.demo.requests.AnimePutRequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,13 @@ import java.util.concurrent.ThreadLocalRandom;
 @RequiredArgsConstructor
 public class AnimeService {
 
-
-
     private final AnimeRepository animeRepository;
 
     public List<Anime> listAll(){
         return animeRepository.findAll();
     }
 
-    public Anime findById(long id){
+    public Anime findByIdOrThrowBadRequestException(long id){
         return animeRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST,"Anime ID not Found"));
     }
 
@@ -34,11 +33,15 @@ public class AnimeService {
     }
 
     public void delete(long id){
-        animeRepository.delete(findById(id));
+        animeRepository.delete(findByIdOrThrowBadRequestException(id));
     }
 
-    public void replace(Anime anime){
+    public void replace(AnimePutRequestBody animePutRequestBody){
+        Anime savedAnime = findByIdOrThrowBadRequestException(animePutRequestBody.getId());
+        Anime anime = Anime.builder()
+                .id(savedAnime.getId())
+                .name(animePutRequestBody.getName()).build();
         animeRepository.save(anime);
-        
+
     }
 }
