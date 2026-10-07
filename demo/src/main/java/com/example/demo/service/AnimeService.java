@@ -32,6 +32,7 @@ public class AnimeService {
         return animeRepository.findById(id).orElseThrow(()->new BadRequestException("Anime not found"));
     }
 
+    
     public Anime save(AnimePostRequestBody animePostRequestBody){
         return animeRepository.save( AnimeMapper.INSTACE.toAnime(animePostRequestBody));
     }

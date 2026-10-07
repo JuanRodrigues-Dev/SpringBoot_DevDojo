@@ -5,6 +5,7 @@ import com.example.demo.requests.AnimePostRequestBody;
 import com.example.demo.requests.AnimePutRequestBody;
 import com.example.demo.service.AnimeService;
 import com.example.demo.util.DateUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class AnimeController {
     }
 
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody AnimePostRequestBody anime){
+    public ResponseEntity<Anime> save(@RequestBody @Valid AnimePostRequestBody anime){
         return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED);
     }
 
