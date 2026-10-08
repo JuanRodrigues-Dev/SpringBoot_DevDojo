@@ -7,6 +7,8 @@ import com.example.demo.repository.AnimeRepository;
 import com.example.demo.requests.AnimePostRequestBody;
 import com.example.demo.requests.AnimePutRequestBody;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,8 +23,8 @@ public class AnimeService {
 
     private final AnimeRepository animeRepository;
 
-    public List<Anime> listAll(){
-        return animeRepository.findAll();
+    public Page<Anime> listAll(Pageable pageable){
+        return animeRepository.findAll(pageable);
     }
     public List<Anime> findByName(String name){
         return animeRepository.findByName(name);
@@ -32,7 +34,7 @@ public class AnimeService {
         return animeRepository.findById(id).orElseThrow(()->new BadRequestException("Anime not found"));
     }
 
-    
+
     public Anime save(AnimePostRequestBody animePostRequestBody){
         return animeRepository.save( AnimeMapper.INSTACE.toAnime(animePostRequestBody));
     }

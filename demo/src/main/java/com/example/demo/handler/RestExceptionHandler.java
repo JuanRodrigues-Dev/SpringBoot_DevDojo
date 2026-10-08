@@ -37,26 +37,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                         .build(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationExceptionDetails> handlerMethodArgumentNotValidException(
-            MethodArgumentNotValidException exception){
-
-        List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
-        String fields = fieldErrors.stream().map(FieldError:: getField).collect(Collectors.joining( ", "));
-        String fieldsMessage = fieldErrors.stream().map(FieldError :: getDefaultMessage).collect(Collectors.joining( ", "));
-
-        return new ResponseEntity<>(
-                ValidationExceptionDetails.builder()
-                        .dateTime(LocalDateTime.now())
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .title("Bad Request Exception, Invalid Fields")
-                        .details("Check the field(s) error")
-                        .developerMessage(exception.getClass().getName())
-                        .fields(fields)
-                        .fieldsMessage(fieldsMessage)
-                        .build() ,HttpStatus.BAD_REQUEST);
-    }
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException exception,
